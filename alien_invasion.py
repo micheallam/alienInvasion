@@ -10,10 +10,13 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from alien2 import Alien2
+from alien3 import Alien3
 
 
 class AlienInvasion:
     # Overall class to manage game assets and behavior
+
 
     def __init__(self):
         # Initialize the game, and create game resources
@@ -40,9 +43,14 @@ class AlienInvasion:
         self.play_button = Button(self, "Play")
 
     def run_game(self):
+        # Plays background music
+        pygame.mixer.music.load("sounds/Bots 2.wav")
+        pygame.mixer.music.play(-1)
         # Start the main loop for the game
+
         while True:
             self._check_events()
+
 
             if self.stats.game_active:
                 self.ship.update()
@@ -112,6 +120,9 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+            # The sound effect for fireing the bullets
+            fireBullet = pygame.mixer.Sound("sounds/shoot.wav")
+            fireBullet.play()
 
     def _update_bullets(self):
         # Update position of bullets and get rid of old bullets
@@ -134,6 +145,9 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
+            # Play the explosion sound when the get hit
+            alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
+            alienDeathSound.play()
             self.sb.prep_score()
             self.sb.check_high_score()
 
@@ -173,6 +187,8 @@ class AlienInvasion:
 
     def _ship_hit(self):
         # Respond to the ship being hit by an alien
+        shipHit = pygame.mixer.Sound("sounds/explosion.wav")
+        shipHit.play()
         if self.stats.ships_left > 0:
             # Decrement ships_left, and update scoreboard.
             self.stats.ships_left -= 1

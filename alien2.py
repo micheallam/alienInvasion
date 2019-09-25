@@ -1,8 +1,9 @@
 import pygame
 from pygame.sprite import Sprite
- 
-class Alien(Sprite):
-    # A class to represent a single alien that is for 10 points
+
+
+class Alien2(Sprite):
+    # The alien that will be for 20 points
 
     def __init__(self, ai_game):
         # Initialize the alien and set its starting position
@@ -32,5 +33,5 @@ class Alien(Sprite):
     def update(self):
         # Move the alien right or left
         self.x += (self.settings.alien_speed *
-                        self.settings.fleet_direction)
+                   self.settings.fleet_direction)
         self.rect.x = self.x
