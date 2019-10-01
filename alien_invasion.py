@@ -11,11 +11,15 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from alien import Alien1
+from barrier import Barrier
+from timer import Timer
 
 
 
 class AlienInvasion:
     # Overall class to manage game assets and behavior
+    BARRIER_POSITION = 450
+    GREEN = (78, 255, 87)
 
 
     def __init__(self):
@@ -162,6 +166,8 @@ class AlienInvasion:
             self.stats.level += 1
             self.sb.prep_level()
 
+
+
     def _update_aliens(self):
         """
         Check if the fleet is at an edge,
@@ -250,6 +256,17 @@ class AlienInvasion:
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
+
+    """def create_barrier(self, number):
+        # Creates the barriers between aliens and ship
+        barrierGroup = sprite.Sprite()
+        for row in range(4):
+            for column in range(9):
+                barrier = Barrier(10, GREEN, row, column)
+                barrier.rect.x = 50 + (200 * number) + (column * barrier.width)
+                barrier.rect.y = BARRIER_POSITION + (row * barrier.height)
+                barrierGroup.add(barrier)
+        return barrierGroup"""
 
     def _update_screen(self):
         # Update images on the screen, and flip to the new screen

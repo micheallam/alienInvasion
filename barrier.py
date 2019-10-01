@@ -1,4 +1,5 @@
 import pygame
+from pygame import Surface
 from pygame.sprite import Sprite
 
 class Barrier(Sprite):
@@ -15,5 +16,3 @@ class Barrier(Sprite):
         self.row = row
         self.column = column
 
-    def update(self, keys, *args):
-        game.screen.blit(self.image, self.rect)

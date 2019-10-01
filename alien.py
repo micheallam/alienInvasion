@@ -12,6 +12,7 @@ class Alien(Sprite):
         white = (255, 255, 255)
 
         # Load the alien image and set its rect attribute.
+        self.image = pygame.image.load('images/cactuar.bmp')
         self.rect = self.image.get_rect()
 
         # Start each new alien near the top left of the screen.
@@ -34,7 +35,8 @@ class Alien(Sprite):
         self.rect.x = self.x
 
 class Alien1(Alien):
-    # creates alien 1
+    # creates alien 1 that gives 10 points
     def __init__(self,ai_game):
         super().__init__(ai_game)
         self.image = pygame.image.load('images/Alien_Mask1.png')
+
