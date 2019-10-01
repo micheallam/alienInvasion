@@ -9,11 +9,9 @@ class Alien(Sprite):
         super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
-        WHITE = (255, 255, 255)
+        white = (255, 255, 255)
 
         # Load the alien image and set its rect attribute.
-        self.image = pygame.image.load('images/cactuar.bmp')
-        self.image.set_colorkey(WHITE)  # This makes all "WHITE" transparent
         self.rect = self.image.get_rect()
 
         # Start each new alien near the top left of the screen.
@@ -34,3 +32,9 @@ class Alien(Sprite):
         self.x += (self.settings.alien_speed *
                         self.settings.fleet_direction)
         self.rect.x = self.x
+
+class Alien1(Alien):
+    # creates alien 1
+    def __init__(self,ai_game):
+        super().__init__(ai_game)
+        self.image = pygame.image.load('images/Alien_Mask1.png')

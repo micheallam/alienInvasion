@@ -10,8 +10,8 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
-from alien2 import Alien2
-from alien3 import Alien3
+from alien import Alien1
+
 
 
 class AlienInvasion:
@@ -118,11 +118,12 @@ class AlienInvasion:
     def _fire_bullet(self):
         # Create a new bullet and add it to the bullets group
         if len(self.bullets) < self.settings.bullets_allowed:
-            new_bullet = Bullet(self)
-            self.bullets.add(new_bullet)
             # The sound effect for fireing the bullets
             fireBullet = pygame.mixer.Sound("sounds/shoot.wav")
             fireBullet.play()
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+
 
     def _update_bullets(self):
         # Update position of bullets and get rid of old bullets
@@ -212,7 +213,7 @@ class AlienInvasion:
         # Create the fleet of aliens
         # Create an alien and find the number of aliens in a row.
         # Spacing between each alien is equal to one alien width.
-        alien = Alien(self)
+        alien = Alien1(self)
         alien_width, alien_height = alien.rect.size
         available_space_x = self.settings.screen_width - (2 * alien_width)
         number_aliens_x = available_space_x // (2 * alien_width)
@@ -230,7 +231,7 @@ class AlienInvasion:
 
     def _create_alien(self, alien_number, row_number):
         # Create an alien and place it in the row
-        alien = Alien(self)
+        alien = Alien1(self)
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x

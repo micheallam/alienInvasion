@@ -12,10 +12,12 @@ class Ship(Sprite):
         self.settings = ai_game.settings
         self.screen_rect = ai_game.screen.get_rect()
         GRAY = (230, 230, 230)
+        white = (255, 255, 255)
 
         # Load the ship image and get its rect.
-        self.image = pygame.image.load('images/ship.bmp')
+        self.image = pygame.image.load('images/ship.png')
         self.image.set_colorkey(GRAY)
+        self.image.set_colorkey(white)
         self.rect = self.image.get_rect()
 
         # Start each new ship at the bottom center of the screen.
