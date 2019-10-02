@@ -238,10 +238,7 @@ class AlienInvasion:
         # Create the full fleet of aliens.
         for row_number in range(number_rows):
             for alien_number in range(number_aliens_x):
-                if number_rows != 1:
                     self._create_alien1(alien_number, row_number)
-                elif number_rows == 2:
-                    self._create_alien2(alien_number, row_number)
 
     # Creates 10 points aliens
     def _create_alien1(self, alien_number, row_number):
@@ -251,6 +248,7 @@ class AlienInvasion:
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        alien_points = alien.alien_points
         self.aliens.add(alien)
     # Creates 20 points aliens
     def _create_alien2(self, alien_number, row_number):

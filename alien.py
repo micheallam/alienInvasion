@@ -14,6 +14,9 @@ class Alien(Sprite):
         self.image = pygame.image.load('images/cactuar.bmp')
         self.rect = self.image.get_rect()
 
+        # Alien Scores
+        self.alien_points = 10
+
         # Start each new alien near the top left of the screen.
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
@@ -33,21 +36,28 @@ class Alien(Sprite):
                         self.settings.fleet_direction)
         self.rect.x = self.x
 
+    def get_score(self):
+        # Gets the score of the alien
+        return self.alien_points
+
 class Alien1(Alien):
     # creates alien 1 that gives 10 points
     def __init__(self,ai_game):
         super().__init__(ai_game)
         self.image = pygame.image.load('images/Alien_Mask1.png')
+        self.alien_points = 10
 
 class Alien2(Alien):
     # creates alien 2 that gives 20 points
     def __init__(self, ai_game):
         super().__init__(ai_game)
         self.image = pygame.image.load('images/Alien2_Mask1.png')
+        self.alien_points = 20
 
 class Alien3(Alien):
     # creates alien 3 that gives 40 points
     def __init__(self, ai_game):
         super().__init__(ai_game)
         self.image = pygame.image.load('images/Alien3_Mask3.png')
+        self.alien_points = 40
 
