@@ -1,3 +1,5 @@
+import pygame
+
 class Settings:
     # A class to store all settings for Alien Invasion
 
@@ -6,7 +8,9 @@ class Settings:
         # Screen settings
         self.screen_width = 1200
         self.screen_height = 800
-        self.bg_color = (200, 200, 200)
+        # Background image
+        self.bg_color = pygame.image.load("images/background.png") # 200, 200, 200
+        self.bg_color = pygame.transform.scale(self.bg_color, (self.screen_width, self.screen_height))
 
         # Ship settings
         self.ship_limit = 3
