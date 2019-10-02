@@ -10,6 +10,8 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from alien import Alien1
+from alien import Alien2
+from alien import Alien3
 from barrier import Barrier
 from timer import Timer
 
@@ -230,16 +232,40 @@ class AlienInvasion:
         ship_height = self.ship.rect.height
         available_space_y = (self.settings.screen_height -
                                 (3 * alien_height) - ship_height)
+        # // keeps the int an int(dumps the digits after the number to keep it an int)
         number_rows = available_space_y // (2 * alien_height)
         
         # Create the full fleet of aliens.
         for row_number in range(number_rows):
             for alien_number in range(number_aliens_x):
-                self._create_alien(alien_number, row_number)
+                if number_rows != 1:
+                    self._create_alien1(alien_number, row_number)
+                elif number_rows == 2:
+                    self._create_alien2(alien_number, row_number)
 
-    def _create_alien(self, alien_number, row_number):
+    # Creates 10 points aliens
+    def _create_alien1(self, alien_number, row_number):
         # Create an alien and place it in the row
         alien = Alien1(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        self.aliens.add(alien)
+    # Creates 20 points aliens
+    def _create_alien2(self, alien_number, row_number):
+        # Create an alien and place it in the row
+        alien = Alien2(self)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        self.aliens.add(alien)
+
+    # Creates 40 points aliens
+    def _create_alien3(self, alien_number, row_number):
+        # Create an alien and place it in the row
+        alien = Alien3(self)
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
@@ -278,7 +304,6 @@ class AlienInvasion:
 
     def _update_screen(self):
         # Update images on the screen, and flip to the new screen
-        # self.screen.blit(self.settings.bg_color, (0, 0)) #self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
