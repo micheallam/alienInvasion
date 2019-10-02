@@ -16,6 +16,7 @@ class Scoreboard:
         
         # Font settings for scoring information.
         self.text_color = (30, 30, 30)
+        self.text_black_color = (0, 0, 0)
         self.font = pygame.font.SysFont(None, 48)
 
         # Prepare the initial score images.
@@ -47,6 +48,7 @@ class Scoreboard:
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.score_rect.top
+
 
     def prep_level(self):
         # Turn the level into a rendered image

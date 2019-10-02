@@ -2,7 +2,6 @@ import sys
 from time import sleep
 
 import pygame
-
 from settings import Settings
 from game_stats import GameStats
 from scoreboard import Scoreboard
@@ -14,13 +13,13 @@ from alien import Alien1
 from barrier import Barrier
 from timer import Timer
 
-
+# Overall class to manage game assets and behavior
+BARRIER_POSITION = 450
+# Colors
+WHITE = (255, 255, 255)
+GREEN = (78, 255, 87)
 
 class AlienInvasion:
-    # Overall class to manage game assets and behavior
-    BARRIER_POSITION = 450
-    GREEN = (78, 255, 87)
-
 
     def __init__(self):
         # Initialize the game, and create game resources
@@ -31,6 +30,9 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
+
+        # Set value to True
+        self.mainScreen = True
 
         # Create an instance to store game statistics,
         #   and create a scoreboard.
@@ -54,7 +56,6 @@ class AlienInvasion:
 
         while True:
             self._check_events()
-
 
             if self.stats.game_active:
                 self.ship.update()
@@ -256,6 +257,12 @@ class AlienInvasion:
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
+
+    def create_main_menu(self):
+        self.Alien1 = pygame.image.load('images/Alien1_Mask.png')
+        self.Alien1 = transform.scale(self.Alien1, (40, 40))
+        self.Alien2 = pygame.image.load('images/Alien2_Mask.png')
+        self.Alien2 = transform.scale(self.Alien2, (40, 40))
 
     """def create_barrier(self, number):
         # Creates the barriers between aliens and ship

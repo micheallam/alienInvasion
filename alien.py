@@ -40,3 +40,9 @@ class Alien1(Alien):
         super().__init__(ai_game)
         self.image = pygame.image.load('images/Alien_Mask1.png')
 
+class Alien2(Alien):
+    # creates alien 2 that gives 20 points
+    def __init__(self, ai_game):
+        super().__init(ai_game)
+        self.image = pygame.image.load('Alien2_Mask1.png')
+
