@@ -8,8 +8,10 @@ class Settings:
         # Screen settings
         self.screen_width = 1200
         self.screen_height = 800
+        self.screen = pygame.display.set_mode([self.screen_width, self.screen_height])
         # Background image
-        self.bg_color = pygame.image.load("images/background.png") # 200, 200, 200
+        self.bg_color = pygame.image.load("images/background.bmp").convert_alpha()
+        # 200, 200, 200
         self.bg_color = pygame.transform.scale(self.bg_color, (self.screen_width, self.screen_height))
 
         # Ship settings
@@ -19,7 +21,7 @@ class Settings:
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
-        self.bullets_allowed = 3
+        self.bullets_allowed = 5
 
         # Alien settings
         self.fleet_drop_speed = 10

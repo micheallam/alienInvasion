@@ -58,6 +58,7 @@ class AlienInvasion:
             self._check_events()
 
             if self.stats.game_active:
+                self.screen.blit(self.settings.bg_color, (0, 0))  # self.screen.fill(self.settings.bg_color)
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
@@ -277,7 +278,7 @@ class AlienInvasion:
 
     def _update_screen(self):
         # Update images on the screen, and flip to the new screen
-        self.screen.blit(self.settings.bg_color, (0, 0)) #self.screen.fill(self.settings.bg_color)
+        # self.screen.blit(self.settings.bg_color, (0, 0)) #self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
