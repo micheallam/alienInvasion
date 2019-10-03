@@ -4,7 +4,7 @@ from pygame.sprite import Sprite
 class Alien(Sprite):
     # A class to represent a single alien that is for 10 points
 
-    def __init__(self, ai_game):
+    def __init__(self, ai_game, points):
         # Initialize the alien and set its starting position
         super().__init__()
         self.screen = ai_game.screen
@@ -15,7 +15,7 @@ class Alien(Sprite):
         self.rect = self.image.get_rect()
 
         # Alien Scores
-        self.alien_points = 10
+        self.alien_points = points
 
         # Start each new alien near the top left of the screen.
         self.rect.x = self.rect.width
@@ -43,9 +43,8 @@ class Alien(Sprite):
 class Alien1(Alien):
     # creates alien 1 that gives 10 points
     def __init__(self,ai_game):
-        super().__init__(ai_game)
+        super().__init__(ai_game, 10)
         self.image = pygame.image.load('images/Alien_Mask1.png')
-        self.alien_points = 10
 
 class Alien2(Alien):
     # creates alien 2 that gives 20 points
