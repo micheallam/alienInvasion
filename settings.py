@@ -29,9 +29,9 @@ class Settings:
         # How quickly the game speeds up
         self.speedup_scale = 1.1
         # The leve score multiplier
-        self.levelScoreMultiplier = 7.0
+        self.levelScoreMultiplier = 1
         # How quickly the alien point values increase
-        self.score_scale = 1.5
+        self.score_scale = 2
 
         self.initialize_dynamic_settings()
 
