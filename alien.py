@@ -49,14 +49,12 @@ class Alien1(Alien):
 class Alien2(Alien):
     # creates alien 2 that gives 20 points
     def __init__(self, ai_game):
-        super().__init__(ai_game)
+        super().__init__(ai_game, 20)
         self.image = pygame.image.load('images/Alien2_Mask1.png')
-        self.alien_points = 20
 
 class Alien3(Alien):
     # creates alien 3 that gives 40 points
     def __init__(self, ai_game):
-        super().__init__(ai_game)
+        super().__init__(ai_game, 40)
         self.image = pygame.image.load('images/Alien3_Mask3.png')
-        self.alien_points = 40
 
