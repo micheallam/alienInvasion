@@ -154,7 +154,7 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 for alien in aliens:
-                    self.stats.score += alien.get_points() * len(aliens) # self.stats.score += self.settings.alien_points * len(aliens)
+                    self.stats.score += alien.get_points() * len(aliens)
                     # Play the explosion sound when the get hit
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
                     alienDeathSound.play()
@@ -224,7 +224,7 @@ class AlienInvasion:
         # Create the fleet of aliens
         # Create an alien and find the number of aliens in a row.
         # Spacing between each alien is equal to one alien width.
-        alien = Alien1(self)
+        alien = Alien(self)
         alien_width, alien_height = alien.rect.size
         available_space_x = self.settings.screen_width - (2 * alien_width)
         number_aliens_x = available_space_x // (2 * alien_width)
@@ -238,32 +238,18 @@ class AlienInvasion:
         
         # Create the full fleet of aliens.
         for row_number in range(number_rows):
+            if (row_number == 0):
+                alien = Alien3(self)
+            if(row_number == 1):
+                alien = Alien2(self)
+            if (row_number == 2 or row_number == 3):
+                alien = Alien1(self)
             for alien_number in range(number_aliens_x):
-                    self._create_alien1(alien_number, row_number)
+                    self._create_alien(alien_number, row_number, alien)
 
-    # Creates 10 points aliens
-    def _create_alien1(self, alien_number, row_number):
+    # Creates aliens
+    def _create_alien(self, alien_number, row_number, alien):
         # Create an alien and place it in the row
-        alien = Alien1(self)
-        alien_width, alien_height = alien.rect.size
-        alien.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
-        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
-        self.aliens.add(alien)
-    # Creates 20 points aliens
-    def _create_alien2(self, alien_number, row_number):
-        # Create an alien and place it in the row
-        alien = Alien2(self)
-        alien_width, alien_height = alien.rect.size
-        alien.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
-        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
-        self.aliens.add(alien)
-
-    # Creates 40 points aliens
-    def _create_alien3(self, alien_number, row_number):
-        # Create an alien and place it in the row
-        alien = Alien3(self)
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
