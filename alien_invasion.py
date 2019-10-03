@@ -166,6 +166,7 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+            self.Alien.increase_point_value() # new
 
             # Increase level.
             self.stats.level += 1
@@ -238,14 +239,15 @@ class AlienInvasion:
         
         # Create the full fleet of aliens.
         for row_number in range(number_rows):
-            if (row_number == 0):
-                alien = Alien3(self)
-            if(row_number == 1):
-                alien = Alien2(self)
-            if (row_number == 2 or row_number == 3):
-                alien = Alien1(self)
             for alien_number in range(number_aliens_x):
-                    self._create_alien(alien_number, row_number, alien)
+                # Change the alien depending on which row it is
+                if (row_number == 0):
+                    alien = Alien3(self)
+                if(row_number == 1):
+                    alien = Alien2(self)
+                if (row_number == 2 or row_number == 3):
+                    alien = Alien1(self)
+                self._create_alien(alien_number, row_number, alien)
 
     # Creates aliens
     def _create_alien(self, alien_number, row_number, alien):
