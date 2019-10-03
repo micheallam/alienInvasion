@@ -153,7 +153,7 @@ class AlienInvasion:
 
         if collisions:
             for aliens in collisions.values():
-                self.stats.score += self.alien.get_score() # self.stats.score += self.settings.alien_points * len(aliens)
+                self.stats.score += self.alien.get_points() * len(aliens) # self.stats.score += self.settings.alien_points * len(aliens)
             # Play the explosion sound when the get hit
             alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
             alienDeathSound.play()
@@ -248,7 +248,6 @@ class AlienInvasion:
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
-        alien_points = Alien.get_score(alien)
         self.aliens.add(alien)
     # Creates 20 points aliens
     def _create_alien2(self, alien_number, row_number):
