@@ -154,7 +154,7 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 for alien in aliens:
-                    self.stats.score += alien.get_points() * len(aliens)
+                    self.stats.score += alien.get_points() * settings.levelScoreMultiplier * len(aliens)
                     # Play the explosion sound when the get hit
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
                     alienDeathSound.play()
@@ -166,7 +166,6 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
-            self.Alien.increase_point_value() # new
 
             # Increase level.
             self.stats.level += 1

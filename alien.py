@@ -10,9 +10,6 @@ class Alien(Sprite):
         self.screen = ai_game.screen
         self.settings = ai_game.settings
 
-        # How quickly the alien point values increase
-        self.score_scale = 1.5 # new
-
         # Load the alien image and set its rect attribute.
         self.image = pygame.image.load('images/cactuar.bmp')
         self.rect = self.image.get_rect()
@@ -23,11 +20,6 @@ class Alien(Sprite):
 
         # Store the alien's exact horizontal position.
         self.x = float(self.rect.x)
-
-    def increase_point_value(self): # new
-        Alien1.get_points() * self.score_scale
-        Alien2.get_points() * self.score_scale
-        Alien3.get_points() * self.score_scale
 
     def check_edges(self):
         # Return True if alien is at edge of screen

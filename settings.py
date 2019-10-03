@@ -28,6 +28,8 @@ class Settings:
 
         # How quickly the game speeds up
         self.speedup_scale = 1.1
+        # The leve score multiplier
+        self.levelScoreMultiplier = 7.0
         # How quickly the alien point values increase
         self.score_scale = 1.5
 
@@ -48,5 +50,4 @@ class Settings:
         self.ship_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
-
-        #self.alien.alien_points = int(self.alien.alien_points * self.score_scale)
+        self.levelScoreMultiplier = self.levelScoreMultiplier * self.score_scale
