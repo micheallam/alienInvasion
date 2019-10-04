@@ -14,6 +14,7 @@ from alien import Alien2
 from alien import Alien3
 from barrier import Barrier
 from timer import Timer
+from alien_explosion import Alien_Explosion
 
 # Overall class to manage game assets and behavior
 BARRIER_POSITION = 450
@@ -93,6 +94,8 @@ class AlienInvasion:
             self.sb.prep_score()
             self.sb.prep_level()
             self.sb.prep_ships()
+            # new
+            self.explosionsGroup = sprite.Group()
 
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()
@@ -158,6 +161,10 @@ class AlienInvasion:
                     # Play the explosion sound when the get hit
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
                     alienDeathSound.play()
+                    # new stuff
+                    alien_explosion(alien, self.explosionsGroup)
+                    self.timer.get_current_time()
+                    # end new stuff
                     self.sb.prep_score()
                     self.sb.check_high_score()
 

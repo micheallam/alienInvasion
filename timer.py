@@ -29,5 +29,8 @@ class Timer:
         self.finished = False
     def __str__(self): return 'Timer(frames=' + self.frames +\
                               ', wait=' + str(self.wait) + ', index=' + str(self.frameindex) + ')'
+    # Gets the milliseconds passed
+    def get_current_time(self):
+        return pygame.time.get_ticks()
     def imagerect(self):
         return self.frames[self.frame_index()]
