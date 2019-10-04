@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from timer import Timer
  
 class Alien(Sprite):
     # A class to represent a single alien that is for 10 points
@@ -13,6 +14,9 @@ class Alien(Sprite):
         # Load the alien image and set its rect attribute.
         self.image = pygame.image.load('images/cactuar.bmp')
         self.rect = self.image.get_rect()
+
+        self.explosionImage = pygame.image.load('images/Alien_Explosion1.png')
+        self.rect = self.explosionImage.get_rect()
 
         # Start each new alien near the top left of the screen.
         self.rect.x = self.rect.width
@@ -35,6 +39,17 @@ class Alien(Sprite):
 
     def get_points(self):
         return NotImplementedError()
+
+    def alien_explosion(self, current_time, alien):
+        passed = current_time - self.timer.get_current_time()
+        if passed <= 100:
+            self.screen.blit(self.explosionImage, alien)
+            self.explosionImage = pygame.image.load('images/Alien_Explosion2.png')
+        elif passed <= 200:
+            self.screen.blit(self.explosionImage, alien)
+            self.explosionImage = pygame.image.load('images/Alien_Explosion3.png')
+        elif passed < 400:
+            self.kill()
 
 
 class Alien1(Alien):
