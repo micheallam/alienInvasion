@@ -159,7 +159,7 @@ class AlienInvasion:
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
                     alienDeathSound.play()
                     # new stuff
-                    alien.alien_explosion(timer.get_current_time(),alien)
+                    alien.alien_explosion(pygame.time.get_ticks(), alien)
                     # end new stuff
                     self.sb.prep_score()
                     self.sb.check_high_score()

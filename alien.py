@@ -15,8 +15,14 @@ class Alien(Sprite):
         self.image = pygame.image.load('images/cactuar.bmp')
         self.rect = self.image.get_rect()
 
-        self.explosionImage = pygame.image.load('images/Alien_Explosion1.png')
-        self.rect = self.explosionImage.get_rect()
+        self.explosionImage1 = pygame.image.load('images/Alien_Explosion1.png')
+        self.rect = self.explosionImage1.get_rect()
+
+        self.explosionImage2 = pygame.image.load('images/Alien_Explosion2.png')
+        self.rect = self.explosionImage2.get_rect()
+
+        self.explosionImage3 = pygame.image.load('images/Alien_Explosion3.png')
+        self.rect = self.explosionImage3.get_rect()
 
         # Start each new alien near the top left of the screen.
         self.rect.x = self.rect.width
@@ -41,14 +47,14 @@ class Alien(Sprite):
         return NotImplementedError()
 
     def alien_explosion(self, current_time, alien):
-        passed = current_time - self.timer.get_current_time()
+        passed = current_time - pygame.time.get_ticks()
         if passed <= 100:
-            self.screen.blit(self.explosionImage, alien)
-            self.explosionImage = pygame.image.load('images/Alien_Explosion2.png')
-        elif passed <= 200:
-            self.screen.blit(self.explosionImage, alien)
-            self.explosionImage = pygame.image.load('images/Alien_Explosion3.png')
-        elif passed < 400:
+            self.screen.blit(self.explosionImage1, alien)
+        elif passed <= 300:
+            self.screen.blit(self.explosionImage2, alien)
+        elif passed <= 500:
+            self.screen.blit(self.explosionImage3, alien)
+        elif passed < 700:
             self.kill()
 
 
