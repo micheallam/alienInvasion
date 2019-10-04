@@ -24,6 +24,9 @@ class Alien(Sprite):
         self.explosionImage3 = pygame.image.load('images/Alien_Explosion3.png')
         self.rect = self.explosionImage3.get_rect()
 
+        self.explosionImage4 = pygame.image.load('images/Alien_Explosion4.png')
+        self.rect = self.explosionImage3.get_rect()
+
         # Start each new alien near the top left of the screen.
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
@@ -46,16 +49,19 @@ class Alien(Sprite):
     def get_points(self):
         return NotImplementedError()
 
-    def alien_explosion(self, current_time, alien):
-        passed = current_time - pygame.time.get_ticks()
-        if passed <= 100:
+    '''def alien_explosion(self, current_time, alien):
+        self.gameTimer = pygame.time.get_ticks()
+        passed = current_time - self.gameTimer
+        if passed <= 1000:
             self.screen.blit(self.explosionImage1, alien)
-        elif passed <= 300:
+        elif passed <= 1200:
             self.screen.blit(self.explosionImage2, alien)
-        elif passed <= 500:
+        elif passed <= 1400:
             self.screen.blit(self.explosionImage3, alien)
-        elif passed < 700:
-            self.kill()
+        elif passed <= 1600:
+            self.screen.blit(self.explosionImage4, alien)
+        elif passed < 2000:
+            self.kill() '''
 
 
 class Alien1(Alien):
