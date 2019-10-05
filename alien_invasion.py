@@ -45,6 +45,7 @@ class AlienInvasion:
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.explosionGroup = pygame.sprite.Group() # new
 
         self._create_fleet()
 
@@ -163,7 +164,7 @@ class AlienInvasion:
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
                     alienDeathSound.play()
                     # Cycles through explosion images
-                    Alien_Explosion.update(current_timer, alien)
+                    Alien_Explosion(alien, self.explosionGroup)
                     # end new stuff
                     self.sb.prep_score()
                     self.sb.check_high_score()
