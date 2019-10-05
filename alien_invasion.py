@@ -237,8 +237,12 @@ class AlienInvasion:
             self.game_over = True
             # Creates game over screen and main menu button
             if self.game_over:
-                currentTime = pygame.time.get_ticks()
-                self._create_game_over(currentTime)
+                self._create_game_over()
+            elif self.stats.game_active:
+                self.run_game()
+                self._check_events()
+
+            self._update_screen()
 
             pygame.mouse.set_visible(True)
 
@@ -293,21 +297,16 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
-    def _create_game_over(self, currenttime):
+    def _create_game_over(self):
         # Create the game over screen
         # Game over screen
         self.screen.blit(self.settings.gameover_bg, (0, 0))
-        passed = currenttime - pygame.time.get_ticks()
-        if passed < 750:
-            # Game over text
-            self.gameover_text = self.font.render("GAME OVER", True, WHITE)
-            self.screen.blit(self.gameover_text, (self.settings.screen_width/2 - 200, 330))
-            self.play_again_text = self.font.render("Play Again?", True, WHITE)
-            self.screen.blit(self.play_again_text, (self.settings.screen_width/2 - 180, 410))
-        elif passed > 3000:
-            self.game_over = False
-            self.mainScreen = True
-            self.run_game()
+
+        # Game over text
+        self.gameover_text = self.font.render("GAME OVER", True, WHITE)
+        self.screen.blit(self.gameover_text, (self.settings.screen_width/2 - 200, 330))
+        self.play_again_text = self.font.render("Play Again?", True, WHITE)
+        self.screen.blit(self.play_again_text, (self.settings.screen_width/2 - 180, 410))
 
 
     def _create_main_menu(self):
