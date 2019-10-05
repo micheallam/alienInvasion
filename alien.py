@@ -92,3 +92,13 @@ class Alien3(Alien):
     def get_points(self):
         return 40
 
+class Alien4(Alien):
+    # Creates the UFo that gives mystery points
+    def __init__(self, ai_game):
+        super().__init__(ai_game)
+        self.image = pygame.image.load('images/UFO1.png"')
+
+    '''def get_points(self):
+    # Returns mystery points using random int
+        return '''
+

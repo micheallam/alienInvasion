@@ -11,6 +11,7 @@ class Settings:
         self.screen = pygame.display.set_mode([self.screen_width, self.screen_height])
         # Background image
         self.bg_color = pygame.image.load("images/background.bmp").convert_alpha()
+        self.main_bg = pygame.image.load("images/menu.bmp").convert_alpha()
         # 200, 200, 200
         self.bg_color = pygame.transform.scale(self.bg_color, (self.screen_width, self.screen_height))
 

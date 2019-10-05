@@ -1,9 +1,11 @@
 import pygame.font
- 
+from settings import Settings
+
 class Button:
  
     def __init__(self, ai_game, msg):
         # Initialize button attributes
+        self.settings = Settings()
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
         
@@ -13,9 +15,10 @@ class Button:
         self.text_color = (255, 255, 255)
         self.font = pygame.font.SysFont(None, 48)
         
-        # Build the button's rect object and center it.
+        # Build the button's rect object and place it on the screen
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.center = self.screen_rect.center
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.settings.screen_height - 150
         
         # The button message needs to be prepped only once.
         self._prep_msg(msg)

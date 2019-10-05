@@ -18,6 +18,7 @@ from timer import Timer
 # Overall class to manage game assets and behavior
 BARRIER_POSITION = 450
 # Colors
+BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (78, 255, 87)
 
@@ -27,6 +28,7 @@ class AlienInvasion:
         # Initialize the game, and create game resources
         pygame.init()
         self.settings = Settings()
+        self.font = pygame.font.SysFont(None, 100)
 
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.settings.screen_width = self.screen.get_rect().width
@@ -57,10 +59,10 @@ class AlienInvasion:
         # Start the main loop for the game
 
         while True:
+            if self.mainScreen:
+                self.create_main_menu()
             self._check_events()
-
             if self.stats.game_active:
-                # new
                 current_time = pygame.time.get_ticks()
                 self.screen.blit(self.settings.bg_color, (0, 0))
                 self.ship.update()
@@ -92,6 +94,7 @@ class AlienInvasion:
             # Reset the game statistics.
             self.stats.reset_stats()
             self.stats.game_active = True
+            self.mainScreen = False
             self.sb.prep_score()
             self.sb.prep_level()
             self.sb.prep_ships()
@@ -279,10 +282,27 @@ class AlienInvasion:
         self.settings.fleet_direction *= -1
 
     def create_main_menu(self):
-        self.Alien1 = pygame.image.load('images/Alien1_Mask.png')
-        self.Alien1 = transform.scale(self.Alien1, (40, 40))
-        self.Alien2 = pygame.image.load('images/Alien2_Mask.png')
-        self.Alien2 = transform.scale(self.Alien2, (40, 40))
+        # Title screen
+        self.title_text_top = self.font.render("SPACE", True, BLACK)
+        self.screen.blit(self.title_text_top, (self.settings.screen_width/2, 0))
+        self.title_text_bottom = self.font.render("INVADERS", True, WHITE)
+        self.screen.blit(self.title_text_bottom, (self.settings.screen_width / 2, 10))
+
+        # Creates the image of aliens
+        self.screen.blit(self.settings.main_bg, (0, 0))
+        self.Alien1image = pygame.image.load('images/Alien_Mask1.png')
+        self.Alien1Scaledimage = pygame.transform.scale(self.Alien1image, (70, 70))
+        self.screen.blit(self.Alien1Scaledimage, (318, 250))
+        self.Alien2image = pygame.image.load('images/Alien2_Mask1.png')
+        self.Alien2ScaledImage = pygame.transform.scale(self.Alien2image, (70, 70))
+        self.screen.blit(self.Alien2ScaledImage, (318, 330))
+        self.Alien3image = pygame.image.load('images/Alien3_Mask1.png')
+        self.Alien3ScaledImage = pygame.transform.scale(self.Alien3image, (70, 70))
+        self.screen.blit(self.Alien3ScaledImage, (318, 410))
+        self.Alien4image = pygame.image.load('images/UFO1.png')
+        self.Alien4ScaledImage = pygame.transform.scale(self.Alien4image, (70, 70))
+        self.screen.blit(self.Alien4ScaledImage, (318, 490))
+
 
     """def create_barrier(self, number):
         # Creates the barriers between aliens and ship

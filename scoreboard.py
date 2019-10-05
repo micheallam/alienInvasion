@@ -31,7 +31,6 @@ class Scoreboard:
         score_str = "{:,}".format(rounded_score)
         self.score_image = self.font.render(score_str, True,
                 self.text_color)
-        # new
         self.score_text_image = self.font.render("Score", True,
                 self.text_black_color)
         
@@ -49,7 +48,6 @@ class Scoreboard:
         high_score_str = "{:,}".format(high_score)
         self.high_score_image = self.font.render(high_score_str, True,
                 self.text_color)
-        # new
         self.high_score_text_image = self.font.render("HIGH SCORE", True, self.text_black_color)
             
         # Center the high score at the top of the screen.
