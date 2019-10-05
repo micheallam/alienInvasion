@@ -53,6 +53,7 @@ class AlienInvasion:
 
         # Make the Play button.
         self.play_button = Button(self, "Play")
+        self.menu_button = Button(self, "Menu")
 
     def run_game(self):
         # Plays background music
@@ -63,6 +64,7 @@ class AlienInvasion:
         while True:
             if self.mainScreen:
                 self._create_main_menu()
+                self.game_over = False
                 self._check_events()
 
             elif self.stats.game_active:
@@ -88,6 +90,19 @@ class AlienInvasion:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_menu_button(mouse_pos)
+
+    def _check_menu_button(self, mouse_pos):
+        # Takes back to menu when clicked
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.mainScreen:
+            # Reset the game settings.
+            self.settings.initialize_dynamic_settings()
+            self.mainScreen = True
+            # Hide the mouse cursor.
+            pygame.mouse.set_visible(False)
 
     def _check_play_button(self, mouse_pos):
         # Start a new game when the player clicks Play
@@ -238,11 +253,9 @@ class AlienInvasion:
             # Creates game over screen and main menu button
             if self.game_over:
                 self._create_game_over()
-            elif self.stats.game_active:
-                self.run_game()
-                self._check_events()
 
-            self._update_screen()
+            self._update_game_over_screen()
+            self._check_events()
 
             pygame.mouse.set_visible(True)
 
@@ -360,6 +373,13 @@ class AlienInvasion:
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
             self.play_button.draw_button()
+
+        pygame.display.flip()
+
+    def _update_game_over_screen(self):
+        # Draw the menu button if game is over
+        if not self.stats.game_active:
+            self.menu_button.draw_button()
 
         pygame.display.flip()
 
