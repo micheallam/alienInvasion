@@ -29,6 +29,7 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
         self.font = pygame.font.SysFont(None, 100)
+        self.ptfont = pygame.font.SysFont(None, 70)
 
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.settings.screen_width = self.screen.get_rect().width
@@ -282,26 +283,38 @@ class AlienInvasion:
         self.settings.fleet_direction *= -1
 
     def create_main_menu(self):
+        # Main menu background
+        self.screen.blit(self.settings.main_bg, (0, 0))
+
         # Title screen
-        self.title_text_top = self.font.render("SPACE", True, BLACK)
-        self.screen.blit(self.title_text_top, (self.settings.screen_width/2, 0))
-        self.title_text_bottom = self.font.render("INVADERS", True, WHITE)
-        self.screen.blit(self.title_text_bottom, (self.settings.screen_width / 2, 10))
+        self.title_text_top = self.font.render("SPACE", True, WHITE)
+        self.screen.blit(self.title_text_top, (self.settings.screen_width/2 - 100, 50))
+        self.title_text_bottom = self.font.render("INVADERS", True, GREEN)
+        self.screen.blit(self.title_text_bottom, (self.settings.screen_width / 2 - 150, 110))
 
         # Creates the image of aliens
-        self.screen.blit(self.settings.main_bg, (0, 0))
         self.Alien1image = pygame.image.load('images/Alien_Mask1.png')
         self.Alien1Scaledimage = pygame.transform.scale(self.Alien1image, (70, 70))
-        self.screen.blit(self.Alien1Scaledimage, (318, 250))
+        self.screen.blit(self.Alien1Scaledimage, (460, 250))
         self.Alien2image = pygame.image.load('images/Alien2_Mask1.png')
         self.Alien2ScaledImage = pygame.transform.scale(self.Alien2image, (70, 70))
-        self.screen.blit(self.Alien2ScaledImage, (318, 330))
+        self.screen.blit(self.Alien2ScaledImage, (460, 330))
         self.Alien3image = pygame.image.load('images/Alien3_Mask1.png')
         self.Alien3ScaledImage = pygame.transform.scale(self.Alien3image, (70, 70))
-        self.screen.blit(self.Alien3ScaledImage, (318, 410))
+        self.screen.blit(self.Alien3ScaledImage, (460, 410))
         self.Alien4image = pygame.image.load('images/UFO1.png')
         self.Alien4ScaledImage = pygame.transform.scale(self.Alien4image, (70, 70))
-        self.screen.blit(self.Alien4ScaledImage, (318, 490))
+        self.screen.blit(self.Alien4ScaledImage, (460, 490))
+
+        # How much each alien is worth
+        self.Alien1Text = self.ptfont.render("  =   10 PTS", True, WHITE)
+        self.screen.blit(self.Alien1Text, (540, 250))
+        self.Alien2Text = self.ptfont.render("  =   20 PTS", True, WHITE)
+        self.screen.blit(self.Alien2Text, (540, 340))
+        self.Alien3Text = self.ptfont.render("  =   40 PTS", True, WHITE)
+        self.screen.blit(self.Alien3Text, (540, 420))
+        self.Alien4Text = self.ptfont.render("  =  ??? PTS", True, WHITE)
+        self.screen.blit(self.Alien4Text, (540, 500))
 
 
     """def create_barrier(self, number):
