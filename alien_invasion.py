@@ -68,6 +68,7 @@ class AlienInvasion:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
+                self.explosionGroup.update(current_time)
 
             self._update_screen()
 
