@@ -12,11 +12,14 @@ class Settings:
         # Background image
         self.bg_color = pygame.image.load("images/background.bmp").convert_alpha()
         self.main_bg = pygame.image.load("images/menu.bmp").convert_alpha()
+        self.gameover_bg = pygame.image.load("images/gameover.bmp").convert_alpha()
         # 200, 200, 200
         self.bg_color = pygame.transform.scale(self.bg_color, (self.screen_width, self.screen_height))
+        self.main_bg = pygame.transform.scale(self.main_bg, (self.screen_width, self.screen_height))
+        self.gameover_bg = pygame.transform.scale(self.gameover_bg, (self.screen_width, self.screen_height))
 
         # Ship settings
-        self.ship_limit = 3
+        self.ship_limit = 1
 
         # Bullet settings
         self.bullet_width = 3
@@ -25,7 +28,7 @@ class Settings:
         self.bullets_allowed = 5
 
         # Alien settings
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 1000# 10
 
         # How quickly the game speeds up
         self.speedup_scale = 1.1

@@ -38,6 +38,7 @@ class AlienInvasion:
 
         # Set value to True
         self.mainScreen = True
+        self.game_over = False
 
         # Create an instance to store game statistics,
         #   and create a scoreboard.
@@ -61,8 +62,8 @@ class AlienInvasion:
 
         while True:
             if self.mainScreen:
-                self.create_main_menu()
-                self._check_events() # new
+                self._create_main_menu()
+                self._check_events()
 
             elif self.stats.game_active:
                 current_time = pygame.time.get_ticks()
@@ -231,7 +232,14 @@ class AlienInvasion:
             # Pause.
             sleep(0.5)
         else:
+            # Set active game to false and turn on game over flag
             self.stats.game_active = False
+            self.game_over = True
+            # Creates game over screen and main menu button
+            if self.game_over:
+                currentTime = pygame.time.get_ticks()
+                self._create_game_over(currentTime)
+
             pygame.mouse.set_visible(True)
 
     def _create_fleet(self):
@@ -285,7 +293,24 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
-    def create_main_menu(self):
+    def _create_game_over(self, currenttime):
+        # Create the game over screen
+        # Game over screen
+        self.screen.blit(self.settings.gameover_bg, (0, 0))
+        passed = currenttime - pygame.time.get_ticks()
+        if passed < 750:
+            # Game over text
+            self.gameover_text = self.font.render("GAME OVER", True, WHITE)
+            self.screen.blit(self.gameover_text, (self.settings.screen_width/2 - 200, 330))
+            self.play_again_text = self.font.render("Play Again?", True, WHITE)
+            self.screen.blit(self.play_again_text, (self.settings.screen_width/2 - 180, 410))
+        elif passed > 3000:
+            self.game_over = False
+            self.mainScreen = True
+            self.run_game()
+
+
+    def _create_main_menu(self):
         # Main menu background
         self.screen.blit(self.settings.main_bg, (0, 0))
 
@@ -333,15 +358,6 @@ class AlienInvasion:
         return barrierGroup"""
 
     def _update_screen(self):
-        ''''# Update images on the screen, and flip to the new screen
-        self.ship.blitme()
-        for bullet in self.bullets.sprites():
-            bullet.draw_bullet()
-        self.aliens.draw(self.screen)
-
-        # Draw the score information.
-        self.sb.show_score()'''
-
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
             self.play_button.draw_button()
@@ -359,8 +375,6 @@ class AlienInvasion:
         self.sb.show_score()
 
         pygame.display.flip()
-
-
 
 if __name__ == '__main__':
     # Make a game instance, and run the game.
