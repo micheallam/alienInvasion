@@ -48,7 +48,7 @@ class AlienInvasion:
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
-        self._create_fleet()
+        #self._create_fleet()
 
         # Make the Play button.
         self.play_button = Button(self, "Play")
@@ -62,13 +62,16 @@ class AlienInvasion:
         while True:
             if self.mainScreen:
                 self.create_main_menu()
-            self._check_events()
-            if self.stats.game_active:
+                self._check_events() # new
+
+            elif self.stats.game_active:
                 current_time = pygame.time.get_ticks()
                 self.screen.blit(self.settings.bg_color, (0, 0))
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
+                self._check_events()
+                self._update_active_screen()
 
             self._update_screen()
 
@@ -317,6 +320,7 @@ class AlienInvasion:
         self.screen.blit(self.Alien4Text, (540, 500))
 
 
+
     """def create_barrier(self, number):
         # Creates the barriers between aliens and ship
         barrierGroup = sprite.Sprite()
@@ -329,6 +333,22 @@ class AlienInvasion:
         return barrierGroup"""
 
     def _update_screen(self):
+        ''''# Update images on the screen, and flip to the new screen
+        self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+        self.aliens.draw(self.screen)
+
+        # Draw the score information.
+        self.sb.show_score()'''
+
+        # Draw the play button if the game is inactive.
+        if not self.stats.game_active:
+            self.play_button.draw_button()
+
+        pygame.display.flip()
+
+    def _update_active_screen(self):
         # Update images on the screen, and flip to the new screen
         self.ship.blitme()
         for bullet in self.bullets.sprites():
@@ -338,11 +358,8 @@ class AlienInvasion:
         # Draw the score information.
         self.sb.show_score()
 
-        # Draw the play button if the game is inactive.
-        if not self.stats.game_active:
-            self.play_button.draw_button()
-
         pygame.display.flip()
+
 
 
 if __name__ == '__main__':
