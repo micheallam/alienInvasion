@@ -44,6 +44,9 @@ class AlienInvasion:
         self.mainScreen = True
         self.highscoreFlag = False
 
+        # Random integer for determining mystery spawn
+        self.mysterySpawn = random.randint(0, 100)
+
         # Create an instance to store game statistics,
         #   and create a scoreboard.
         self.stats = GameStats(self)
@@ -220,6 +223,9 @@ class AlienInvasion:
         Check if the fleet is at an edge,
           then update the positions of all aliens in the fleet.
         """
+        if self.mysterySpawn == 100:
+            self._create_mystery_alien(Alien4)
+
         self._check_fleet_edges()
         self.aliens.update()
 
