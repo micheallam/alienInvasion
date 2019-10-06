@@ -1,5 +1,6 @@
 import sys
 from time import sleep
+from os import path
 
 import pygame
 from settings import Settings
@@ -38,7 +39,7 @@ class AlienInvasion:
 
         # Set value to True
         self.mainScreen = True
-        self.game_over = False
+        self.highscoreFlag = False
 
         # Create an instance to store game statistics,
         #   and create a scoreboard.
@@ -62,9 +63,13 @@ class AlienInvasion:
         # Start the main loop for the game
 
         while True:
-            if self.mainScreen:
+            if self.mainScreen and self.highscoreFlag:
+                while True:
+                    self._create_highscore()
+                    self._update_highscore_screen()
+
+            elif self.mainScreen:
                 self._create_main_menu()
-                self.game_over = False
                 self._check_events()
 
             elif self.stats.game_active:
@@ -101,6 +106,7 @@ class AlienInvasion:
             # Reset the game settings.
             self.settings.initialize_dynamic_settings()
             self.mainScreen = True
+            self.highscoreFlag = False
             # Hide the mouse cursor.
             pygame.mouse.set_visible(False)
 
@@ -250,12 +256,12 @@ class AlienInvasion:
             # Set active game to false and turn on game over flag
             self.stats.game_active = False
             self.game_over = True
+            self.mainScreen = True
             # Creates game over screen and main menu button
-            if self.game_over:
-                self._create_game_over()
-
-            self._update_game_over_screen()
-            self._check_events()
+            '''if self.game_over:
+                self._create_highscore()
+                self._update_game_over_screen()
+            self._check_events()'''
 
             pygame.mouse.set_visible(True)
 
@@ -310,7 +316,7 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
-    def _create_game_over(self):
+    def _create_highscore(self):
         # Create the game over screen
         # Game over screen
         self.screen.blit(self.settings.gameover_bg, (0, 0))
@@ -376,7 +382,7 @@ class AlienInvasion:
 
         pygame.display.flip()
 
-    def _update_game_over_screen(self):
+    def _update_highscore_screen(self):
         # Draw the menu button if game is over
         if not self.stats.game_active:
             self.menu_button.draw_button()

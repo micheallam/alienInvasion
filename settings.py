@@ -30,6 +30,9 @@ class Settings:
         # Alien settings
         self.fleet_drop_speed = 1000# 10
 
+        # Reads highscore file
+        self. HS_FILE = "highscore.txt"
+
         # How quickly the game speeds up
         self.speedup_scale = 1.1
         # The leve score multiplier

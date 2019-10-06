@@ -65,7 +65,7 @@ class Alien(Sprite):
 
 class Alien1(Alien):
     # creates alien 1 that gives 10 points
-    def __init__(self,ai_game):
+    def __init__(self, ai_game):
         super().__init__(ai_game)
         self.image = pygame.image.load('images/Alien_Mask1.png')
 
