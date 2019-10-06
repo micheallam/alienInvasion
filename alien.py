@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from timer import Timer
  
 class Alien(Sprite):
     # A class to represent a single alien that is for 10 points
@@ -9,6 +10,7 @@ class Alien(Sprite):
         super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
+        self.imageFlag = True
 
         # Load the alien image and set its rect attribute.
         self.image = pygame.image.load('images/cactuar.bmp')
@@ -49,10 +51,12 @@ class Alien(Sprite):
         self.x += (self.settings.alien_speed *
                         self.settings.fleet_direction)
         self.rect.x = self.x
-        if pygame.time.get_ticks() % 10 == 0 or 1 or 2 or 3 or 4:
+        if self.imageFlag:
             self.image = self.image1
-        elif pygame.time.get_ticks() % 10 == 5 or 6 or 7 or 8 or 9:
+        elif not self.imageFlag:
             self.image = self.image2
+
+        self.imageFlag = not self.imageFlag
 
     def get_points(self):
         return NotImplementedError()
