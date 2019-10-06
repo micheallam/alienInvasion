@@ -65,15 +65,15 @@ class Alien(Sprite):
         self.rect.x = self.x
         # Swaps between the images
         self.flagTimer += 1
-        if (self.flagTimer / 6) < 5:
+        if (self.flagTimer / 7) < 3:
             self.image = self.image1
-        elif (self.flagTimer / 6) < 10:
+        elif (self.flagTimer / 7) < 5:
             self.image = self.image2
-        elif (self.flagTimer / 6) < 20:
+        elif (self.flagTimer / 7) < 7:
             self.image = self.image3
-        elif (self.flagTimer / 6) >= 25:
+        elif (self.flagTimer / 7) >= 9:
             self.image = self.image4
-        if self.flagTimer > 120:
+        if self.flagTimer > 70:
             self.flagTimer = 0
 
     def get_points(self):

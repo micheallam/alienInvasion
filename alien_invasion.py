@@ -43,9 +43,10 @@ class AlienInvasion:
         # Set value to True
         self.mainScreen = True
         self.highscoreFlag = False
+        self.mysterySpawnFlag = True
 
         # Random integer for determining mystery spawn
-        self.mysterySpawn = random.randint(0, 100)
+        self.mysterySpawn = 0
 
         # Create an instance to store game statistics,
         #   and create a scoreboard.
@@ -55,8 +56,6 @@ class AlienInvasion:
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
-
-        #self._create_fleet()
 
         # Make the Play button.
         self.play_button = Button(self, "Play")
@@ -202,6 +201,7 @@ class AlienInvasion:
                         alien.alien_explosion(current_timer, alien)
                     elif alien == Alien4:
                         alien.mystery_explosion(current_timer, alien)
+                        self.mysterySpawnFlag = not self.mysterySpawnFlag
                     # end new stuff
                     self.sb.prep_score()
                     self.sb.check_high_score()
@@ -223,8 +223,16 @@ class AlienInvasion:
         Check if the fleet is at an edge,
           then update the positions of all aliens in the fleet.
         """
-        if self.mysterySpawn == 100:
-            self._create_mystery_alien(Alien4)
+        # Increments mysterySpawn by random integers
+        self.randomIncrement = random.randint(0, 100)
+        self.mysterySpawn += self.randomIncrement
+        UFOalien = Alien4(self)
+        # Creates UFO and reset spawner when requirements are met
+        if self.mysterySpawn >= 10000 and self.mysterySpawnFlag:
+            self._create_mystery_alien(UFOalien)
+            # reset spawn number back to 0
+            self.mysterySpawn = 0
+            self.mysterySpawnFlag = not self.mysterySpawnFlag
 
         self._check_fleet_edges()
         self.aliens.update()
