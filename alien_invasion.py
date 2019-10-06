@@ -302,7 +302,6 @@ class AlienInvasion:
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
 
-
     def _check_fleet_edges(self):
         # Respond appropriately if any aliens have reached an edge
         for alien in self.aliens.sprites():
@@ -382,12 +381,12 @@ class AlienInvasion:
 
         pygame.display.flip()
 
-    def _update_highscore_screen(self):
+    '''def _update_highscore_screen(self):
         # Draw the menu button if game is over
         if not self.stats.game_active:
             self.menu_button.draw_button()
 
-        pygame.display.flip()
+        pygame.display.flip()'''
 
     def _update_active_screen(self):
         # Update images on the screen, and flip to the new screen

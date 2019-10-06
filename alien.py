@@ -13,6 +13,11 @@ class Alien(Sprite):
         # Load the alien image and set its rect attribute.
         self.image = pygame.image.load('images/cactuar.bmp')
         self.rect = self.image.get_rect()
+        # Second alien image to simulate movement
+        self.image2 = pygame.image.load('images/cactuar.bmp')
+        self.rect = self.image2.get_rect()
+        self.image1 = pygame.image.load('images/cactuar.bmp')
+        self.rect = self.image1.get_rect()
 
         self.explosionImage1 = pygame.image.load('images/Alien_Explosion1.png')
         self.rect = self.explosionImage1.get_rect()
@@ -44,6 +49,10 @@ class Alien(Sprite):
         self.x += (self.settings.alien_speed *
                         self.settings.fleet_direction)
         self.rect.x = self.x
+        if pygame.time.get_ticks() % 10 == 0 or 1 or 2 or 3 or 4:
+            self.image = self.image1
+        elif pygame.time.get_ticks() % 10 == 5 or 6 or 7 or 8 or 9:
+            self.image = self.image2
 
     def get_points(self):
         return NotImplementedError()
@@ -67,7 +76,8 @@ class Alien1(Alien):
     # creates alien 1 that gives 10 points
     def __init__(self, ai_game):
         super().__init__(ai_game)
-        self.image = pygame.image.load('images/Alien_Mask1.png')
+        self.image1 = pygame.image.load('images/Alien_Mask1.png')
+        self.image2 = pygame.image.load('images/Alien_Mask2.png')
 
     def get_points(self):
         return 10
@@ -77,7 +87,8 @@ class Alien2(Alien):
     # creates alien 2 that gives 20 points
     def __init__(self, ai_game):
         super().__init__(ai_game)
-        self.image = pygame.image.load('images/Alien2_Mask1.png')
+        self.image1 = pygame.image.load('images/Alien2_Mask1.png')
+        self.image2 = pygame.image.load('images/Alien2_Mask2.png')
 
     def get_points(self):
         return 20
@@ -87,7 +98,8 @@ class Alien3(Alien):
     # creates alien 3 that gives 40 points
     def __init__(self, ai_game):
         super().__init__(ai_game)
-        self.image = pygame.image.load('images/Alien3_Mask1.png')
+        self.image1 = pygame.image.load('images/Alien3_Mask1.png')
+        self.image2 = pygame.image.load('images/Alien2_Mask2.png')
 
     def get_points(self):
         return 40
@@ -96,7 +108,7 @@ class Alien4(Alien):
     # Creates the UFo that gives mystery points
     def __init__(self, ai_game):
         super().__init__(ai_game)
-        self.image = pygame.image.load('images/UFO1.png"')
+        self.image1 = pygame.image.load('images/UFO1.png"')
 
     '''def get_points(self):
     # Returns mystery points using random int
