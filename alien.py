@@ -1,6 +1,6 @@
 import pygame
+import random
 from pygame.sprite import Sprite
-from timer import Timer
  
 class Alien(Sprite):
     # A class to represent a single alien that is for 10 points
@@ -10,7 +10,11 @@ class Alien(Sprite):
         super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
+        # Image animation flag
         self.imageFlag = True
+        self.flagTimer = 0
+        # Mystery/UFO's random score
+        self.mysteryScore = [50, 100, 200, 300]
 
         # Load the alien image and set its rect attribute.
         self.image = pygame.image.load('images/cactuar.bmp')
@@ -19,6 +23,11 @@ class Alien(Sprite):
         self.image2 = pygame.image.load('images/cactuar.bmp')
         self.rect = self.image2.get_rect()
         self.image1 = pygame.image.load('images/cactuar.bmp')
+        self.rect = self.image1.get_rect()
+        # new
+        self.image3 = pygame.image.load('images/cactuar.bmp')
+        self.rect = self.image1.get_rect()
+        self.image4 = pygame.image.load('images/cactuar.bmp')
         self.rect = self.image1.get_rect()
 
         self.explosionImage1 = pygame.image.load('images/Alien_Explosion1.png')
@@ -51,12 +60,18 @@ class Alien(Sprite):
         self.x += (self.settings.alien_speed *
                         self.settings.fleet_direction)
         self.rect.x = self.x
-        if self.imageFlag:
+        # Swaps between the images
+        self.flagTimer += 1
+        if (self.flagTimer / 6) < 5:
             self.image = self.image1
-        elif not self.imageFlag:
+        elif (self.flagTimer / 6) < 10:
             self.image = self.image2
-
-        self.imageFlag = not self.imageFlag
+        elif (self.flagTimer / 6) < 20:
+            self.image = self.image3
+        elif (self.flagTimer / 6) >= 25:
+            self.image = self.image4
+        if self.flagTimer > 120:
+            self.flagTimer = 0
 
     def get_points(self):
         return NotImplementedError()
@@ -66,14 +81,23 @@ class Alien(Sprite):
         passed = current_time - self.gameTimer
         if passed <= 1000:
             self.screen.blit(self.explosionImage1, alien)
-        elif passed <= 1200:
+        elif passed <= 3000:
             self.screen.blit(self.explosionImage2, alien)
-        elif passed <= 1400:
+        elif passed <= 5000:
             self.screen.blit(self.explosionImage3, alien)
-        elif passed <= 1600:
+        elif passed <= 7000:
             self.screen.blit(self.explosionImage4, alien)
-        elif passed < 2000:
+        elif passed < 9000:
             self.kill()
+
+    def mystery_explosion(self, current_time, alien):
+        self.mysteryTimer = pygame.time.get_ticks()
+        timepass = current_time - self.mysteryTimer
+        if timepass <= 5000:
+            self.screen.blit(self.str(alien.mysteryScore))
+        elif timepass < 10000:
+            self.kill()
+
 
 
 class Alien1(Alien):
@@ -82,6 +106,8 @@ class Alien1(Alien):
         super().__init__(ai_game)
         self.image1 = pygame.image.load('images/Alien_Mask1.png')
         self.image2 = pygame.image.load('images/Alien_Mask2.png')
+        self.image3 = pygame.image.load('images/Alien_Mask1.png')
+        self.image4 = pygame.image.load('images/Alien_Mask2.png')
 
     def get_points(self):
         return 10
@@ -93,6 +119,8 @@ class Alien2(Alien):
         super().__init__(ai_game)
         self.image1 = pygame.image.load('images/Alien2_Mask1.png')
         self.image2 = pygame.image.load('images/Alien2_Mask2.png')
+        self.image3 = pygame.image.load('images/Alien2_Mask1.png')
+        self.image4 = pygame.image.load('images/Alien2_Mask2.png')
 
     def get_points(self):
         return 20
@@ -103,7 +131,9 @@ class Alien3(Alien):
     def __init__(self, ai_game):
         super().__init__(ai_game)
         self.image1 = pygame.image.load('images/Alien3_Mask1.png')
-        self.image2 = pygame.image.load('images/Alien2_Mask2.png')
+        self.image2 = pygame.image.load('images/Alien3_Mask2.png')
+        self.image3 = pygame.image.load('images/Alien3_Mask1.png')
+        self.image4 = pygame.image.load('images/Alien3_Mask2.png')
 
     def get_points(self):
         return 40
@@ -112,9 +142,12 @@ class Alien4(Alien):
     # Creates the UFo that gives mystery points
     def __init__(self, ai_game):
         super().__init__(ai_game)
-        self.image1 = pygame.image.load('images/UFO1.png"')
+        self.image1 = pygame.image.load('images/UFO1.png')
+        self.image2 = pygame.image.load('images/UFO2.png')
+        self.image3 = pygame.image.load('images/UFO3.png')
+        self.image4 = pygame.image.load('images/UFO4.png')
 
-    '''def get_points(self):
-    # Returns mystery points using random int
-        return '''
+    def get_points(self):
+        # Returns mystery points using random int
+        return random.choice(self.mysteryScore)
 

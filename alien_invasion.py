@@ -1,6 +1,8 @@
 import sys
+import random
 from time import sleep
 from os import path
+
 
 import pygame
 from settings import Settings
@@ -13,6 +15,7 @@ from alien import Alien
 from alien import Alien1
 from alien import Alien2
 from alien import Alien3
+from alien import Alien4
 from barrier import Barrier
 from timer import Timer
 
@@ -191,8 +194,11 @@ class AlienInvasion:
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
                     alienDeathSound.play()
                     # Cycles through explosion images
-                    #Alien_Explosion(alien, self.explosionGroup)
-                    alien.alien_explosion(current_timer, alien)
+                    # Alien explosion depending if its regular or UFO
+                    if alien == Alien1 or Alien2 or Alien3:
+                        alien.alien_explosion(current_timer, alien)
+                    elif alien == Alien4:
+                        alien.mystery_explosion(current_timer, alien)
                     # end new stuff
                     self.sb.prep_score()
                     self.sb.check_high_score()
