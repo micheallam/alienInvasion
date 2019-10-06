@@ -308,6 +308,13 @@ class AlienInvasion:
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
 
+    def _create_mystery_alien(self, alien):
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height
+        self.aliens.add(alien)
+
     def _check_fleet_edges(self):
         # Respond appropriately if any aliens have reached an edge
         for alien in self.aliens.sprites():

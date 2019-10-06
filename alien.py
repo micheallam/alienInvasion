@@ -1,7 +1,8 @@
 import pygame
 import random
 from pygame.sprite import Sprite
- 
+
+WHITE = (255, 255, 255)
 class Alien(Sprite):
     # A class to represent a single alien that is for 10 points
 
@@ -10,11 +11,13 @@ class Alien(Sprite):
         super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
+        self.font = pygame.font.SysFont(None, 40)
         # Image animation flag
         self.imageFlag = True
         self.flagTimer = 0
         # Mystery/UFO's random score
         self.mysteryScore = [50, 100, 200, 300]
+
 
         # Load the alien image and set its rect attribute.
         self.image = pygame.image.load('images/cactuar.bmp')
@@ -93,8 +96,9 @@ class Alien(Sprite):
     def mystery_explosion(self, current_time, alien):
         self.mysteryTimer = pygame.time.get_ticks()
         timepass = current_time - self.mysteryTimer
-        if timepass <= 5000:
-            self.screen.blit(self.str(alien.mysteryScore))
+        self.mysteryScoreText = self.font.render(str(alien.get_points()), True, WHITE)
+        if timepass <= 1000:
+            self.screen.blit(self.mysteryScoreText, alien)
         elif timepass < 10000:
             self.kill()
 
