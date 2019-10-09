@@ -38,7 +38,8 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
-        pygame.mixer.music.load("sounds/Bots 2.wav")
+        self.backgroundtheme = pygame.mixer.Sound("sounds/Bots 2.wav")
+        self.rushedTheme = pygame.mixer.Sound("sounds/BotsRushed.wav")
         self.UFOspawn = pygame.mixer.Sound("sounds/UFO.wav")
 
         # Set value to True
@@ -68,7 +69,7 @@ class AlienInvasion:
 
     def run_game(self):
         # Plays background music
-        pygame.mixer.music.play(-1)
+        self.backgroundtheme.play(-1)
         # Start the main loop for the game
 
         while True:
@@ -216,6 +217,9 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed() # Also increases the score multiplier
+            # Restart the music
+            self.rushedTheme.stop()
+            self.backgroundtheme.play(-1)
 
             # Increase level.
             self.stats.level += 1
@@ -241,6 +245,8 @@ class AlienInvasion:
 
         # Aliens will move faster if 15 are killed
         if self.alienCounter == 15:
+            self.backgroundtheme.stop()
+            self.rushedTheme.play()
             self.settings.alien_speed += 0.1
             self.alienCounter = 0
 
@@ -289,6 +295,7 @@ class AlienInvasion:
             # Set active game to false and turn on game over flag
             self.stats.game_active = False
             self.mainScreen = True
+            self.backgroundtheme.play(-1)
 
             pygame.mouse.set_visible(True)
 
