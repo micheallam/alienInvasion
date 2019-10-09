@@ -102,8 +102,6 @@ class Alien(Sprite):
         elif timepass < 10000:
             self.kill()
 
-
-
 class Alien1(Alien):
     # creates alien 1 that gives 10 points
     def __init__(self, ai_game):

@@ -9,6 +9,8 @@ from settings import Settings
 from game_stats import GameStats
 from scoreboard import Scoreboard
 from button import Button
+from button import Highscore_Button
+from button import Back_Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -16,11 +18,8 @@ from alien import Alien1
 from alien import Alien2
 from alien import Alien3
 from alien import Alien4
-from barrier import Barrier
 from timer import Timer
 
-# Overall class to manage game assets and behavior
-BARRIER_POSITION = 450
 # Colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -39,6 +38,8 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
+        pygame.mixer.music.load("sounds/Bots 2.wav")
+        self.UFOspawn = pygame.mixer.Sound("sounds/UFO.wav")
 
         # Set value to True
         self.mainScreen = True
@@ -47,6 +48,9 @@ class AlienInvasion:
 
         # Random integer for determining mystery spawn
         self.mysterySpawn = 0
+
+        # Alien counter
+        self.alienCounter = 0
 
         # Create an instance to store game statistics,
         #   and create a scoreboard.
@@ -59,22 +63,22 @@ class AlienInvasion:
 
         # Make the Play button.
         self.play_button = Button(self, "Play")
-        self.menu_button = Button(self, "Menu")
+        self.highscore_button = Highscore_Button(self, "High Score")
+        self.back_button = Back_Button(self, "Back")
 
     def run_game(self):
         # Plays background music
-        pygame.mixer.music.load("sounds/Bots 2.wav")
         pygame.mixer.music.play(-1)
         # Start the main loop for the game
 
         while True:
-            if self.mainScreen and self.highscoreFlag:
-                while True:
-                    self._create_highscore()
-                    self._update_highscore_screen()
-
-            elif self.mainScreen:
+            if self.mainScreen:
                 self._create_main_menu()
+                self._check_events()
+
+            elif self.highscoreFlag:
+                # plays sound test to see ifit's working
+                self._create_highscore()
                 self._check_events()
 
             elif self.stats.game_active:
@@ -100,24 +104,22 @@ class AlienInvasion:
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 self._check_play_button(mouse_pos)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                self._check_menu_button(mouse_pos)
-
-    def _check_menu_button(self, mouse_pos):
-        # Takes back to menu when clicked
-        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.mainScreen:
-            # Reset the game settings.
-            self.settings.initialize_dynamic_settings()
-            self.mainScreen = True
-            self.highscoreFlag = False
-            # Hide the mouse cursor.
-            pygame.mouse.set_visible(False)
 
     def _check_play_button(self, mouse_pos):
         # Start a new game when the player clicks Play
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        highscore_clicked = self.highscore_button.rect.collidepoint(mouse_pos)
+        back_clicked = self.back_button.rect.collidepoint(mouse_pos)
+        if highscore_clicked and not self.stats.game_active:
+            # Reset the game settings.
+            self.settings.initialize_dynamic_settings()
+            self.mainScreen = False
+            self.highscoreFlag = True
+
+        if back_clicked and self.highscoreFlag:
+            self.highscoreFlag = not self.highscoreFlag
+            self.mainScreen = not self.mainScreen
+
         if button_clicked and not self.stats.game_active:
             # Reset the game settings.
             self.settings.initialize_dynamic_settings()
@@ -187,21 +189,24 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(
                 self.bullets, self.aliens, True, True)
 
+        #pygame.sprite.groupcollide(self.bullets, self.)
+
         if collisions:
             for aliens in collisions.values():
                 for alien in aliens:
                     self.stats.score += alien.get_points() * self.settings.levelScoreMultiplier * len(aliens)
+                    self.alienCounter += 1
                     # Play the explosion sound when the get hit
                     current_timer = pygame.time.get_ticks()
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
                     alienDeathSound.play()
                     # Cycles through explosion images
                     # Alien explosion depending if its regular or UFO
-                    if alien == Alien1 or Alien2 or Alien3:
-                        alien.alien_explosion(current_timer, alien)
-                    elif alien == Alien4:
+                    if alien == Alien4:
                         alien.mystery_explosion(current_timer, alien)
                         self.mysterySpawnFlag = not self.mysterySpawnFlag
+                    elif alien == Alien1 or Alien2 or Alien3:
+                        alien.alien_explosion(current_timer, alien)
                     # end new stuff
                     self.sb.prep_score()
                     self.sb.check_high_score()
@@ -215,8 +220,7 @@ class AlienInvasion:
             # Increase level.
             self.stats.level += 1
             self.sb.prep_level()
-
-
+            self.alienCounter = 0
 
     def _update_aliens(self):
         """
@@ -224,15 +228,21 @@ class AlienInvasion:
           then update the positions of all aliens in the fleet.
         """
         # Increments mysterySpawn by random integers
-        self.randomIncrement = random.randint(0, 100)
+        self.randomIncrement = random.randint(0, 70)
         self.mysterySpawn += self.randomIncrement
-        UFOalien = Alien4(self)
+        alien = Alien4(self)
         # Creates UFO and reset spawner when requirements are met
         if self.mysterySpawn >= 10000 and self.mysterySpawnFlag:
-            self._create_mystery_alien(UFOalien)
+            self._create_mystery_alien(alien)
+            self.UFOspawn.play(3)
             # reset spawn number back to 0
             self.mysterySpawn = 0
             self.mysterySpawnFlag = not self.mysterySpawnFlag
+
+        # Aliens will move faster if 15 are killed
+        if self.alienCounter == 15:
+            self.settings.alien_speed += 0.1
+            self.alienCounter = 0
 
         self._check_fleet_edges()
         self.aliens.update()
@@ -255,8 +265,10 @@ class AlienInvasion:
 
     def _ship_hit(self):
         # Respond to the ship being hit by an alien
+        currenttime = pygame.time.get_ticks()
         shipHit = pygame.mixer.Sound("sounds/explosion.wav")
         shipHit.play()
+        self.ship.ship_explosion(currenttime, self.ship)
         if self.stats.ships_left > 0:
             # Decrement ships_left, and update scoreboard.
             self.stats.ships_left -= 1
@@ -273,15 +285,10 @@ class AlienInvasion:
             # Pause.
             sleep(0.5)
         else:
+            sleep(0.9)
             # Set active game to false and turn on game over flag
             self.stats.game_active = False
-            self.game_over = True
             self.mainScreen = True
-            # Creates game over screen and main menu button
-            '''if self.game_over:
-                self._create_highscore()
-                self._update_game_over_screen()
-            self._check_events()'''
 
             pygame.mouse.set_visible(True)
 
@@ -342,17 +349,6 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
-    def _create_highscore(self):
-        # Create the game over screen
-        # Game over screen
-        self.screen.blit(self.settings.gameover_bg, (0, 0))
-
-        # Game over text
-        self.gameover_text = self.font.render("GAME OVER", True, WHITE)
-        self.screen.blit(self.gameover_text, (self.settings.screen_width/2 - 200, 330))
-        self.play_again_text = self.font.render("Play Again?", True, WHITE)
-        self.screen.blit(self.play_again_text, (self.settings.screen_width/2 - 180, 410))
-
 
     def _create_main_menu(self):
         # Main menu background
@@ -388,32 +384,39 @@ class AlienInvasion:
         self.Alien4Text = self.ptfont.render("  =  ??? PTS", True, WHITE)
         self.screen.blit(self.Alien4Text, (540, 500))
 
+    def _create_highscore(self):
+        font = pygame.font.SysFont("Arial", 72)
+        self.screen.blit(self.settings.main_bg, (0, 0))
+        # Creates the title of Highscore page
+        self.highscore_title_text = self.font.render("HIGHSCORE", True, WHITE)
+        self.screen.blit(self.highscore_title_text, (self.settings.screen_width / 2 - 200, 50))
+
+        highscore = open("highscore.txt", "r+")
+        for msg in highscore:
+            contents = highscore.read()
+            scoreOutput = font.render(msg, True, WHITE)
+            self.screen.blit(scoreOutput, (self.settings.screen_width / 2 - 100, 100))
+
+        '''isOpen = True
+        if isOpen:
+            #scoreOutput = font.render(text, True, WHITE)
+            scoreOutput = font.render(contents, True, WHITE)
+            self.screen.blit(scoreOutput, (self.settings.screen_width / 2 - 100, 100))'''
 
 
-    """def create_barrier(self, number):
-        # Creates the barriers between aliens and ship
-        barrierGroup = sprite.Sprite()
-        for row in range(4):
-            for column in range(9):
-                barrier = Barrier(10, GREEN, row, column)
-                barrier.rect.x = 50 + (200 * number) + (column * barrier.width)
-                barrier.rect.y = BARRIER_POSITION + (row * barrier.height)
-                barrierGroup.add(barrier)
-        return barrierGroup"""
+        highscore.close()
+
+
 
     def _update_screen(self):
         # Draw the play button if the game is inactive.
-        if not self.stats.game_active:
+        if not self.mainScreen and not self.stats.game_active:
+            self.back_button.draw_button()
+        elif not self.stats.game_active and not self.highscoreFlag:
             self.play_button.draw_button()
+            self.highscore_button.draw_button()
 
         pygame.display.flip()
-
-    '''def _update_highscore_screen(self):
-        # Draw the menu button if game is over
-        if not self.stats.game_active:
-            self.menu_button.draw_button()
-
-        pygame.display.flip()'''
 
     def _update_active_screen(self):
         # Update images on the screen, and flip to the new screen
@@ -424,7 +427,6 @@ class AlienInvasion:
 
         # Draw the score information.
         self.sb.show_score()
-
         pygame.display.flip()
 
 if __name__ == '__main__':

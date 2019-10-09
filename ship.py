@@ -26,6 +26,24 @@ class Ship(Sprite):
         # Store a decimal value for the ship's horizontal position.
         self.x = float(self.rect.x)
 
+        # Loads the ship's explosion images and get its rect.
+        self.shipexplosion1 = pygame.image.load('images/shipexplosion1.png')
+        self.rect = self.shipexplosion1.get_rect()
+        self.shipexplosion2 = pygame.image.load('images/shipexplosion2.png')
+        self.rect = self.shipexplosion2.get_rect()
+        self.shipexplosion3 = pygame.image.load('images/shipexplosion3.png')
+        self.rect = self.shipexplosion3.get_rect()
+        self.shipexplosion4 = pygame.image.load('images/shipexplosion4.png')
+        self.rect = self.shipexplosion4.get_rect()
+        self.shipexplosion5 = pygame.image.load('images/shipexplosion5.png')
+        self.rect = self.shipexplosion5.get_rect()
+        self.shipexplosion6 = pygame.image.load('images/shipexplosion6.png')
+        self.rect = self.shipexplosion6.get_rect()
+        self.shipexplosion7 = pygame.image.load('images/shipexplosion7.png')
+        self.rect = self.shipexplosion7.get_rect()
+        self.shipexplosion8 = pygame.image.load('images/shipexplosion8.png')
+        self.rect = self.shipexplosion8.get_rect()
+
         # Movement flags
         self.moving_right = False
         self.moving_left = False
@@ -49,3 +67,25 @@ class Ship(Sprite):
         # Center the ship on the screen
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)
+
+    def ship_explosion(self, currenttime, ship):
+        self.gameTimer = pygame.time.get_ticks()
+        passed = currenttime - self.gameTimer
+        if passed <= 1000:
+            self.screen.blit(self.shipexplosion1, ship)
+        elif passed <= 3000:
+            self.screen.blit(self.shipexplosion2, ship)
+        elif passed <= 5000:
+            self.screen.blit(self.shipexplosion3, ship)
+        elif passed <= 7000:
+            self.screen.blit(self.shipexplosion4, ship)
+        elif passed <= 10000:
+            self.screen.blit(self.shipexplosion5, ship)
+        elif passed <= 15000:
+            self.screen.blit(self.shipexplosion6, ship)
+        elif passed <= 20000:
+            self.screen.blit(self.shipexplosion7, ship)
+        elif passed <= 25000:
+            self.screen.blit(self.shipexplosion8, ship)
+        elif passed < 30000:
+            self.kill()

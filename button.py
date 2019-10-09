@@ -34,3 +34,23 @@ class Button:
         # Draw blank button and then draw message.
         self.screen.fill(self.button_color, self.rect)
         self.screen.blit(self.msg_image, self.msg_image_rect)
+
+class Highscore_Button(Button):
+    def __init__(self, ai_game, msg):
+        super().__init__(ai_game, msg)
+        self.button_color = (255, 0, 0)
+
+        self.rect.centery = 700
+        self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
+        self.msg_image_rect.centerx = 600
+        self.msg_image_rect.centery = 700
+
+class Back_Button(Button):
+    def __init__(self, ai_game, msg):
+        super().__init__(ai_game, msg)
+        self.button_color = (205, 0, 0)
+
+        self.rect.centery = 720
+        self.msg_image = self.font.render(msg, True, self.text_color, self.button_color)
+        self.msg_image_rect.centerx = 600
+        self.msg_image_rect.centery = 720
