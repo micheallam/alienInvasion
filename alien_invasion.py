@@ -188,7 +188,7 @@ class AlienInvasion:
         # Respond to bullet-alien collisions
         # Remove any bullets and aliens that have collided.
         collisions = pygame.sprite.groupcollide(
-                self.bullets, self.aliens, True, True)
+                self.bullets, self.aliens, True, False)
 
         #pygame.sprite.groupcollide(self.bullets, self.)
 
@@ -197,17 +197,12 @@ class AlienInvasion:
                 for alien in aliens:
                     self.stats.score += alien.get_points() * self.settings.levelScoreMultiplier * len(aliens)
                     self.alienCounter += 1
+                    if alien.frame < 5:
+                        alien.frame = 5
+
                     # Play the explosion sound when the get hit
-                    current_timer = pygame.time.get_ticks()
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
                     alienDeathSound.play()
-                    # Cycles through explosion images
-                    # Alien explosion depending if its regular or UFO
-                    if alien == Alien4:
-                        alien.mystery_explosion(current_timer, alien)
-                        self.mysterySpawnFlag = not self.mysterySpawnFlag
-                    elif alien == Alien1 or Alien2 or Alien3:
-                        alien.alien_explosion(current_timer, alien)
                     # end new stuff
                     self.sb.prep_score()
                     self.sb.check_high_score()
@@ -403,13 +398,6 @@ class AlienInvasion:
             contents = highscore.read()
             scoreOutput = font.render(msg, True, WHITE)
             self.screen.blit(scoreOutput, (self.settings.screen_width / 2 - 100, 100))
-
-        '''isOpen = True
-        if isOpen:
-            #scoreOutput = font.render(text, True, WHITE)
-            scoreOutput = font.render(contents, True, WHITE)
-            self.screen.blit(scoreOutput, (self.settings.screen_width / 2 - 100, 100))'''
-
 
         highscore.close()
 
