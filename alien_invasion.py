@@ -78,7 +78,7 @@ class AlienInvasion:
                 self._check_events()
 
             elif self.highscoreFlag:
-                # plays sound test to see ifit's working
+                # plays sound test to see if it's working
                 self._create_highscore()
                 self._check_events()
 
@@ -171,7 +171,6 @@ class AlienInvasion:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
-
     def _update_bullets(self):
         # Update position of bullets and get rid of old bullets
         # Update bullet positions.
@@ -198,6 +197,7 @@ class AlienInvasion:
                     if alien.frame < 5:
                         alien.frame = 5
                         self.stats.score += alien.get_points() * self.settings.levelScoreMultiplier * len(aliens)
+                        # alien counter for increasing speed of aliens
                         self.alienCounter += 1
 
                     # Play the explosion sound when the get hit
@@ -399,10 +399,22 @@ class AlienInvasion:
         self.screen.blit(self.highscore_title_text, (self.settings.screen_width / 2 - 200, 50))
 
         highscore = open("highscore.txt", "r+")
-        for msg in highscore:
-            contents = highscore.read()
-            scoreOutput = font.render(msg, True, WHITE)
-            self.screen.blit(scoreOutput, (self.settings.screen_width / 2 - 100, 100))
+        scoreScreen_Width = self.settings.screen_width/2 - 500
+        scoreScreen_Width2 = self.settings.screen_width / 2 + 100
+        scoreScreen_Height = 110
+        scoreScreen_Height2 = 110
+        lineCounter = 0
+
+        for line in highscore:
+            scoreOutput = font.render(line.strip(), True, WHITE)
+            lineCounter +=1
+            if lineCounter > 5:
+                self.screen.blit(scoreOutput, (scoreScreen_Width2, scoreScreen_Height2))
+                scoreScreen_Height2 += 90
+
+            else:
+                self.screen.blit(scoreOutput, (scoreScreen_Width, scoreScreen_Height))
+                scoreScreen_Height += 90
 
         highscore.close()
 
