@@ -195,10 +195,10 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 for alien in aliens:
-                    self.stats.score += alien.get_points() * self.settings.levelScoreMultiplier * len(aliens)
-                    self.alienCounter += 1
                     if alien.frame < 5:
                         alien.frame = 5
+                        self.stats.score += alien.get_points() * self.settings.levelScoreMultiplier * len(aliens)
+                        self.alienCounter += 1
 
                     # Play the explosion sound when the get hit
                     alienDeathSound = pygame.mixer.Sound("sounds/invaderkilled.wav")
@@ -357,7 +357,6 @@ class AlienInvasion:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
-
     def _create_main_menu(self):
         # Main menu background
         self.screen.blit(self.settings.main_bg, (0, 0))
@@ -406,8 +405,6 @@ class AlienInvasion:
             self.screen.blit(scoreOutput, (self.settings.screen_width / 2 - 100, 100))
 
         highscore.close()
-
-
 
     def _update_screen(self):
         # Draw the play button if the game is inactive.

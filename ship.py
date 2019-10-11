@@ -52,7 +52,6 @@ class Ship(Sprite):
         if self.frame == 0:
             self.image = pygame.image.load('images/ship.png')
 
-
         # Update the ship's position based on movement flags
         # Update the ship's x value, not the rect.
         if self.moving_right and self.rect.right < self.screen_rect.right:
