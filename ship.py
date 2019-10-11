@@ -14,6 +14,12 @@ class Ship(Sprite):
         GRAY = (230, 230, 230)
         white = (255, 255, 255)
 
+        self.frame = 0
+        self.time = 0
+        self.deathFlag = False
+        self.death_time = 0
+        self.death_delay = 20
+
         # Load the ship image and get its rect.
         self.image = pygame.image.load('images/ship.png')
         self.image.set_colorkey(GRAY)
@@ -27,28 +33,26 @@ class Ship(Sprite):
         self.x = float(self.rect.x)
 
         # Loads the ship's explosion images and get its rect.
-        self.shipexplosion1 = pygame.image.load('images/shipexplosion1.png')
-        self.rect = self.shipexplosion1.get_rect()
-        self.shipexplosion2 = pygame.image.load('images/shipexplosion2.png')
-        self.rect = self.shipexplosion2.get_rect()
-        self.shipexplosion3 = pygame.image.load('images/shipexplosion3.png')
-        self.rect = self.shipexplosion3.get_rect()
-        self.shipexplosion4 = pygame.image.load('images/shipexplosion4.png')
-        self.rect = self.shipexplosion4.get_rect()
-        self.shipexplosion5 = pygame.image.load('images/shipexplosion5.png')
-        self.rect = self.shipexplosion5.get_rect()
-        self.shipexplosion6 = pygame.image.load('images/shipexplosion6.png')
-        self.rect = self.shipexplosion6.get_rect()
-        self.shipexplosion7 = pygame.image.load('images/shipexplosion7.png')
-        self.rect = self.shipexplosion7.get_rect()
-        self.shipexplosion8 = pygame.image.load('images/shipexplosion8.png')
-        self.rect = self.shipexplosion8.get_rect()
+        self.shipDeath = {0: 'images/shipexplosion1.png',
+                          1: 'images/shipexplosion2.png',
+                          2: 'images/shipexplosion3.png',
+                          3: 'images/shipexplosion4.png',
+                          4: 'images/shipexplosion5.png',
+                          5: 'images/shipexplosion6.png',
+                          6: 'images/shipexplosion7.png',
+                          7: 'images/shipexplosion8.png'}
 
         # Movement flags
         self.moving_right = False
         self.moving_left = False
 
     def update(self):
+        # Update the ship's original image
+
+        if self.frame == 0:
+            self.image = pygame.image.load('images/ship.png')
+
+
         # Update the ship's position based on movement flags
         # Update the ship's x value, not the rect.
         if self.moving_right and self.rect.right < self.screen_rect.right:
@@ -61,31 +65,43 @@ class Ship(Sprite):
 
     def blitme(self):
         # Draw the ship at its current location
+        if self.frame == 5:
+            self.image = pygame.image.load(self.shipDeath[0])
+            self.frame = 6
+            self.death_time = 0
+        elif self.frame == 6 and self.death_time >= self.death_delay:
+            self.image = pygame.image.load(self.shipDeath[1])
+            self.frame = 7
+            self.death_time = 0
+        elif self.frame == 7 and self.death_time >= self.death_delay:
+            self.image = pygame.image.load(self.shipDeath[2])
+            self.frame = 8
+            self.death_time = 0
+        elif self.frame == 8 and self.death_time >= self.death_delay:
+            self.image = pygame.image.load(self.shipDeath[3])
+            self.frame = 9
+            self.death_time = 0
+        elif self.frame == 9 and self.death_time >= self.death_delay:
+            self.image = pygame.image.load(self.shipDeath[4])
+            self.frame = 10
+            self.death_time = 0
+        elif self.frame == 10 and self.death_time >= self.death_delay:
+            self.image = pygame.image.load(self.shipDeath[5])
+            self.frame = 11
+            self.death_time = 0
+        elif self.frame == 11 and self.death_time >= self.death_delay:
+            self.image = pygame.image.load(self.shipDeath[6])
+            self.frame = 12
+            self.death_time = 0
+        elif self.frame == 12 and self.death_time >= self.death_delay:
+            self.image = pygame.image.load(self.shipDeath[7])
+            self.death_time = 0
+            self.deathFlag = False
+            self.frame = 0
+
         self.screen.blit(self.image, self.rect)
 
     def center_ship(self):
         # Center the ship on the screen
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)
-
-    def ship_explosion(self, currenttime, ship):
-        self.gameTimer = pygame.time.get_ticks()
-        passed = currenttime - self.gameTimer
-        if passed <= 1000:
-            self.screen.blit(self.shipexplosion1, ship)
-        elif passed <= 3000:
-            self.screen.blit(self.shipexplosion2, ship)
-        elif passed <= 5000:
-            self.screen.blit(self.shipexplosion3, ship)
-        elif passed <= 7000:
-            self.screen.blit(self.shipexplosion4, ship)
-        elif passed <= 10000:
-            self.screen.blit(self.shipexplosion5, ship)
-        elif passed <= 15000:
-            self.screen.blit(self.shipexplosion6, ship)
-        elif passed <= 20000:
-            self.screen.blit(self.shipexplosion7, ship)
-        elif passed <= 25000:
-            self.screen.blit(self.shipexplosion8, ship)
-        elif passed < 30000:
-            self.kill()

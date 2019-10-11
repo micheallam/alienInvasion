@@ -266,10 +266,10 @@ class AlienInvasion:
 
     def _ship_hit(self):
         # Respond to the ship being hit by an alien
-        currenttime = pygame.time.get_ticks()
+        self.ship.deathFlag = True
+        self.ship.frame = 5
         shipHit = pygame.mixer.Sound("sounds/explosion.wav")
         shipHit.play()
-        self.ship.ship_explosion(currenttime, self.ship)
         if self.stats.ships_left > 0:
             # Decrement ships_left, and update scoreboard.
             self.stats.ships_left -= 1
@@ -293,6 +293,12 @@ class AlienInvasion:
             self.backgroundtheme.play(-1)
 
             pygame.mouse.set_visible(True)
+
+        # Triggers the death animation when ship is hit
+        while self.ship.deathFlag:
+            self.ship.death_time += 1
+            self.ship.blitme()
+            pygame.display.flip()
 
     def _create_fleet(self):
         # Create the fleet of aliens

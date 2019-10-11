@@ -28,7 +28,7 @@ class Settings:
         self.bullets_allowed = 5
 
         # Alien settings
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 100
 
         # Reads highscore file
         self. HS_FILE = "highscore.txt"
