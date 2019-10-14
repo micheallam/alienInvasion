@@ -196,7 +196,7 @@ class AlienInvasion:
                 for alien in aliens:
                     if alien.frame < 5:
                         alien.frame = 5
-                        self.stats.score += alien.get_points() * self.settings.levelScoreMultiplier * len(aliens)
+                        self.stats.score += alien.get_points() * self.settings.levelScoreMultiplier * len(aliens) + 10000
                         # alien counter for increasing speed of aliens
                         self.alienCounter += 1
 
@@ -286,6 +286,7 @@ class AlienInvasion:
             # Pause.
             sleep(0.5)
         else:
+            self.sb.compare_hi_score()
             sleep(0.9)
             # Set active game to false and turn on game over flag
             self.stats.game_active = False
@@ -399,8 +400,8 @@ class AlienInvasion:
         self.screen.blit(self.highscore_title_text, (self.settings.screen_width / 2 - 200, 50))
 
         highscore = open("highscore.txt", "r+")
-        scoreScreen_Width = self.settings.screen_width/2 - 500
-        scoreScreen_Width2 = self.settings.screen_width / 2 + 100
+        scoreScreen_Width = self.settings.screen_width/2 - 400
+        scoreScreen_Width2 = self.settings.screen_width / 2 + 200
         scoreScreen_Height = 110
         scoreScreen_Height2 = 110
         lineCounter = 0

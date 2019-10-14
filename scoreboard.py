@@ -90,6 +90,22 @@ class Scoreboard:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
 
+    def compare_hi_score(self):
+        # Checks to see if there's a new high score in the text file
+        highscoreFile = open("highscore.txt", "r+")
+        data = highscoreFile.readlines()
+        x = 0
+        dict = []
+        for line in highscoreFile:
+            if self.stats.high_score >= int(line.strip()):
+                data[x] = str(self.stats.high_score)
+                for number in range(10):
+                    highscoreFile.write(dict[number])
+            else:
+                dict[x] = str(line.strip())
+                x += 1
+        highscoreFile.close()
+
     def show_score(self):
         # Draw scores, level, and ships to the screen
         self.screen.blit(self.score_image, self.score_rect)

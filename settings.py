@@ -19,7 +19,7 @@ class Settings:
         self.gameover_bg = pygame.transform.scale(self.gameover_bg, (self.screen_width, self.screen_height))
 
         # Ship settings
-        self.ship_limit = 3
+        self.ship_limit = 1
 
         # Bullet settings
         self.bullet_width = 3
@@ -28,7 +28,7 @@ class Settings:
         self.bullets_allowed = 5
 
         # Alien settings
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 100
 
         # Reads highscore file
         self. HS_FILE = "highscore.txt"
